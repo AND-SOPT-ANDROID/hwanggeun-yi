@@ -1,6 +1,8 @@
 package org.sopt.and
 
 import android.R.attr
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.graphics.Paint.Align
 import android.os.Bundle
 import android.widget.Space
@@ -9,6 +11,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,10 +33,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +56,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import org.sopt.and.components.InputField
+import org.sopt.and.components.PasswordInputField
+import org.sopt.and.components.SocialLoginRow
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 
 
@@ -67,9 +78,36 @@ class SignUpActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(){
+    val context = LocalContext.current // 현재 컨텍스트 가져오기
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var showErrorSnackbar by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    fun onSignUpClick() {
+        if (!isValidEmail(email)) {
+            showErrorSnackbar = true
+            return
+        }
+        if (!isValidPassword(password)) {
+            showErrorSnackbar = true
+            return
+        }
+
+        val intent = Intent(context, SignInActivity::class.java).apply {
+            putExtra("EMAIL", email)
+            putExtra("PASSWORD", password)
+        }
+        context.startActivity(intent)
+    }
+
+    LaunchedEffect(showErrorSnackbar) {
+        if (showErrorSnackbar) {
+            snackbarHostState.showSnackbar("회원가입에 실패했습니다.")
+            showErrorSnackbar = false
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -79,6 +117,7 @@ fun SignUpScreen(){
                 modifier = Modifier
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -86,8 +125,6 @@ fun SignUpScreen(){
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ){
-                Spacer(modifier = Modifier.height(16.dp))
-
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -108,7 +145,7 @@ fun SignUpScreen(){
                     fontWeight = FontWeight.Normal
                 )
 
-                PasswordInputField ("SoptAnd123@@", password, {password = it}, passwordVisible, {passwordVisible = it},)
+                PasswordInputField ("SoptAnd123@@", password, {password = it}, passwordVisible, {passwordVisible = !passwordVisible},)
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,7 +182,7 @@ fun SignUpScreen(){
 
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = {},
+                    onClick = { onSignUpClick() },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color.LightGray),
                     shape = RectangleShape
@@ -157,92 +194,14 @@ fun SignUpScreen(){
     )
 }
 
-@Composable
-fun InputField(
-    placeholder: String,
-    value : String,
-    onValueChange: (String) -> Unit,
-){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(Color.DarkGray, shape = RoundedCornerShape(4.dp))
-            .padding(horizontal = 12.dp),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        if (value.isEmpty()) {
-            Text(
-                text = placeholder,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-        }
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+
+private fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
-@Composable
-fun PasswordInputField(
-    placeholder: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    passwordVisible: Boolean,
-    onVisibilityChange: (Boolean) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(Color.DarkGray, shape = RoundedCornerShape(4.dp))
-            .padding(horizontal = 12.dp), // 입력 필드 내부 패딩
-        contentAlignment = Alignment.CenterStart
-    ) {
-        if (value.isEmpty()) {
-            Text(
-                text = placeholder,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-        }
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-fun SocialLoginRow() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
-    ) {
-        SocialLoginButton(iconResId = R.drawable.ic_launcher_background)
-        SocialLoginButton(iconResId = R.drawable.ic_launcher_background)
-        SocialLoginButton(iconResId = R.drawable.ic_launcher_background)
-        SocialLoginButton(iconResId = R.drawable.ic_launcher_background)
-        SocialLoginButton(iconResId = R.drawable.ic_launcher_background)
-
-    }
-}
-
-@Composable
-fun SocialLoginButton(iconResId: Int) {
-    IconButton(onClick = { TODO()}) {
-        Image(
-            painter = painterResource(id = iconResId),
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
-    }
+private fun isValidPassword(password: String): Boolean {
+    val passwordPattern = "^(?=.*[a-zA-Z])(?=.*[!@#\$%^*+=-])(?=.*[0-9]).{8,20}$"
+    return Regex(passwordPattern).matches(password)
 }
 
 @Preview(showBackground = true)
