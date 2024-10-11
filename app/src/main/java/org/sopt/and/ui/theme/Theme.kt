@@ -4,17 +4,43 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 
+val WavveFont = FontFamily(
+    Font(R.font.wavveregular)
+)
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
+)
+val CustomTypography = Typography(
+    displayLarge = TextStyle(fontFamily = WavveFont, fontSize = 57.sp),
+    displayMedium = TextStyle(fontFamily = WavveFont, fontSize = 45.sp),
+    displaySmall = TextStyle(fontFamily = WavveFont, fontSize = 36.sp),
+    headlineLarge = TextStyle(fontFamily = WavveFont, fontSize = 32.sp),
+    headlineMedium = TextStyle(fontFamily = WavveFont, fontSize = 28.sp),
+    headlineSmall = TextStyle(fontFamily = WavveFont, fontSize = 24.sp),
+    titleLarge = TextStyle(fontFamily = WavveFont, fontSize = 22.sp),
+    titleMedium = TextStyle(fontFamily = WavveFont, fontSize = 16.sp),
+    titleSmall = TextStyle(fontFamily = WavveFont, fontSize = 14.sp),
+    bodyLarge = TextStyle(fontFamily = WavveFont, fontSize = 16.sp),
+    bodyMedium = TextStyle(fontFamily = WavveFont, fontSize = 14.sp),
+    bodySmall = TextStyle(fontFamily = WavveFont, fontSize = 12.sp),
+    labelLarge = TextStyle(fontFamily = WavveFont, fontSize = 14.sp),
+    labelMedium = TextStyle(fontFamily = WavveFont, fontSize = 12.sp),
+    labelSmall = TextStyle(fontFamily = WavveFont, fontSize = 11.sp)
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -52,7 +78,7 @@ fun ANDANDROIDTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = CustomTypography,
         content = content
     )
 }
