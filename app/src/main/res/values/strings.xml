@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">AND-ANDROID</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="my_page_profile_image">프로필 사진</string>
+    <string name="android_string">Android</string>
+
+    <!-- Sign Up -->
+    <string name="sign_up_failure">회원가입에 실패했습니다.</string>
+    <string name="sign_up_top_bar">회원가입</string>
+    <string name="sign_up_title">이메일과 비밀번호만으로\nWavve를 즐길 수 있어요!</string>
+    <string name="sign_up_email_input_example">wavve@email.com</string>
+    <string name="sign_up_email_sub_title">로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해 주세요.</string>
+    <string name="sign_up_password_input_example">SoptAnd123@@</string>
+    <string name="sign_up_password_sub_title">비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해 주세요.</string>
+    <string name="sign_up_social_title">또는 다른 서비스 계정으로 가입</string>
+    <string name="sign_up_social_subtitle">SNS계정으로 간편하게 기입하여 서비스를 이용하실 수 있습니다. 기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요</string>
+
+    <!-- Sign In -->
+    <string name="sign_up_btn">Wavve 회원가입</string>
+    <string name="sign_in_title">Wavve</string>
+    <string name="sign_in_email_placeholder">이메일 주소 또는 아이디</string>
+    <string name="sign_in_password_placeholder">비밀번호</string>
+    <string name="sign_in_button">Wavve 로그인</string>
+    <string name="sign_in_find_id">아이디 찾기</string>
+    <string name="sign_in_reset_password">비밀번호 재설정</string>
+    <string name="sign_in_to_sign_up">회원가입</string>
+    <string name="sign_in_social_title">또는 다른 서비스 계정으로 가입</string>
+    <string name="sign_in_social_subtitle">SNS계정으로 간편하게 기입하여 서비스를 이용하실 수 있습니다. 기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요</string>
+
+    <!-- My Page -->
+    <string name="my_page_not_find_email">이메일이 없습니다.</string>
+    <string name="my_page_first_subtitle">첫 결제 시 첫 달 100원!</string>
+    <string name="my_page_first_title"><![CDATA["구매하기 > "]]></string>
+    <string name="my_page_second_subtitle">현재 보유하신 이용권이 없습니다.</string>
+    <string name="my_page_second_title"><![CDATA["구매하기 > "]]></string>
+    <string name="my_page_total_view_history">전체 시청내역</string>
+    <string name="my_page_not_view_history">시청내역이 없어요.</string>
+    <string name="my_page_like_program">관심 프로그램</string>
+    <string name="my_page_not_found_program">시청내역이 없어요.</string>
+
 </resources>
