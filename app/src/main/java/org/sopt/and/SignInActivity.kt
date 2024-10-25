@@ -57,6 +57,7 @@ import kotlinx.coroutines.launch
 import org.sopt.and.components.InputField
 import org.sopt.and.components.PasswordInputField
 import org.sopt.and.components.SocialLoginRow
+import org.sopt.and.presentation.MainActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.utils.KeyStorage
 import java.io.Console
@@ -103,7 +104,7 @@ fun SignInScreen(
             if(email == savedEmail && password == savedPassword) {
                 snackbarHostState.showSnackbar("로그인에 성공했습니다.")
                 delay(1L)
-                val intent = Intent(context, MyActivity::class.java).apply {
+                val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(KeyStorage.EMAIL, email)
                     putExtra(KeyStorage.PASSWORD, password)
                 }

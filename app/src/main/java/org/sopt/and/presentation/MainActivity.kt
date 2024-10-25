@@ -29,20 +29,22 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
-
-            Scaffold(
-                bottomBar = {
-                    BottomNavigationBar(
-                        navController = navController,
-                        currentRoute = currentRoute
-                    )
-                }
-            ) { paddingValues ->
-                Box(modifier = Modifier.padding(paddingValues)) {
-                    NavGraph(navController = navController)
+            ANDANDROIDTheme(true) {
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(
+                            navController = navController,
+                            currentRoute = currentRoute
+                        )
+                    }
+                ) { paddingValues ->
+                    Box(modifier = Modifier.padding(paddingValues)) {
+                        NavGraph(navController = navController)
+                    }
                 }
             }
         }
+            
     }
 }
 

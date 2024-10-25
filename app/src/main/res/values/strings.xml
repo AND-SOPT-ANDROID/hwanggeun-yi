@@ -40,4 +40,19 @@
     <string name="my_page_like_program">관심 프로그램</string>
     <string name="my_page_not_found_program">시청내역이 없어요.</string>
 
+    <!--HomeViewModel-->
+    <string name="banner_example_1">여왕벌게임</string>
+    <string name="banner_example_2">로앤오더</string>
+    <string name="banner_example_3">좀비버스</string>
+
+    <string name="editor_example_1">미드로부터</string>
+    <string name="editor_example_2">로앤오더</string>
+    <string name="editor_example_3">좀비버스</string>
+
+    <string name="top_example_1">나는솔로</string>
+    <string name="top_example_2">지옥에서 온 전화</string>
+    <string name="top_example_3">지옥에서 온 전화</string>
+    <string name="editor_title">믿고 보는 웨이브 에디터 추천작</string>
+    <string name="top_example_title">오늘의 TOP 20</string>
+
 </resources>
