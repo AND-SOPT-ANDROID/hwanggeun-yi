@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,9 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.sopt.and.R
+import org.sopt.and.core.UserInfo
 import org.sopt.and.navigation.NavGraph
 import org.sopt.and.presentation.common.BottomNavigationBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.utils.KeyStorage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,8 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { paddingValues ->
                     Box(modifier = Modifier.padding(paddingValues)) {
-                        NavGraph(navController = navController)
+                        NavGraph(navController = navController,
+                            intent.getStringExtra(KeyStorage.EMAIL)!!.let { UserInfo(it) })
                     }
                 }
             }
