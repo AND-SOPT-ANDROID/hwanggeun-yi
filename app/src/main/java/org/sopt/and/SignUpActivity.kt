@@ -140,6 +140,7 @@ fun SignUpScreen(){
                     placeholder = stringResource(R.string.sign_up_email_input_example),
                     value = email,
                     onValueChange = {email = it})
+
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -185,6 +186,7 @@ fun SignUpScreen(){
                             .weight(1f)
                             .height(1.dp)
                             .background(Color.Gray))
+
                     }
                 }
                 SocialLoginRow()
@@ -193,6 +195,7 @@ fun SignUpScreen(){
                         .fillMaxWidth()
                         .padding(8.dp),
                     text = stringResource(R.string.sign_up_social_subtitle),
+
                     style = MaterialTheme.typography.bodySmall.copy(lineHeight = 20.sp),
                     color = Color.Gray, fontWeight = FontWeight.Normal,
                 )
@@ -214,6 +217,7 @@ fun SignUpScreen(){
 
 private fun isValidEmail(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 private fun isValidPassword(password: String): Boolean = Regex(KeyStorage.EMAIL_REGEX).matches(password)
+
 
 
 @Preview(showBackground = true)

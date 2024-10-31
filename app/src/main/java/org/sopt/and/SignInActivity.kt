@@ -107,6 +107,7 @@ fun SignInScreen(
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(KeyStorage.EMAIL, email)
                     putExtra(KeyStorage.PASSWORD, password)
+
                 }
                 context.startActivity(intent)
             } else {
@@ -149,12 +150,15 @@ fun SignInScreen(
                     { passwordVisible = !passwordVisible },
                 )
 
+
                 Button(
                     onClick = { onSignInClick() },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(Color.Blue),
                 ){
-                    Text(stringResource(R.string.sign_in_button), color = Color.White, modifier = Modifier.padding(vertical = 8.dp))
+
+                  Text(stringResource(R.string.sign_in_button), color = Color.White, modifier = Modifier.padding(vertical = 8.dp))
+
                 }
 
                 Box(
@@ -208,6 +212,7 @@ fun SignInScreen(
                         .fillMaxWidth()
                         .padding(8.dp),
                     text = stringResource(R.string.sign_in_social_subtitle),
+
                     style = MaterialTheme.typography.bodySmall.copy(lineHeight = 20.sp),
                     color = Color.Gray, fontWeight = FontWeight.Normal,
                 )
