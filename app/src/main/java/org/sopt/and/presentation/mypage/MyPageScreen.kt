@@ -65,46 +65,12 @@ fun MyPageScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
             ){
-                Row(
+                ProfileHeader(
+                    email = uiState.email,
+                    onNotificationClick = {  },
+                    onSettingsClick = {  },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = stringResource(R.string.my_page_profile_image),
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-
-
-                    Text(
-                        text = if (uiState.email != null) uiState.email else stringResource(R.string.my_page_not_find_email),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    IconButton(onClick = { TODO() }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Notifications,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                    IconButton(onClick = { TODO() }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                }
+                )
 
                 Column(
                     modifier = Modifier
@@ -200,6 +166,55 @@ fun EmptyStateMessage(message: String) {
         )
     }
 }
+
+@Composable
+fun ProfileHeader(
+    email: String?,
+    onNotificationClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.DarkGray)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = stringResource(R.string.my_page_profile_image),
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = email ?: stringResource(R.string.my_page_not_find_email),
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onNotificationClick) {
+            Icon(
+                imageVector = Icons.Outlined.Notifications,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+        IconButton(onClick = onSettingsClick) {
+            Icon(
+                imageVector = Icons.Outlined.Settings,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
