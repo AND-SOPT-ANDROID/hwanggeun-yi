@@ -123,29 +123,18 @@ fun HomeScreen(
         item {
             SectionTitle(
                 text = stringResource(R.string.editor_title),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 items(uiState.editorPicks) { content ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        RoundedImage(
-                            imageRes = content.imageRes,
-                            contentDescription = "Image${content.title}",
-                            modifier = Modifier,
-                            width = 120.dp,
-                            height = 120.dp
-                        )
-
-                        Text(
-                            text = context.getString(content.title),
-                            modifier = Modifier.padding(8.dp),
-                            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp)
-                        )
-
-                    }
+                    ImageWithTextCard(
+                        imageRes = content.imageRes,
+                        title = "Image${content.title}",
+                        modifier = Modifier
+                    )
                 }
             }
         }
@@ -161,23 +150,11 @@ fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 items(uiState.top20) { content ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        RoundedImage(
-                            imageRes = content.imageRes,
-                            contentDescription = "Image${content.title}",
-                            modifier = Modifier,
-                            width = 120.dp,
-                            height = 120.dp
-                        )
-
-                        Text(
-                            text = context.getString(content.title),
-                            modifier = Modifier.padding(8.dp),
-                            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp),
-
-                            )
-
-                    }
+                    ImageWithTextCard(
+                        imageRes = content.imageRes,
+                        title = "Image${content.title}",
+                        modifier = Modifier
+                    )
                 }
             }
         }
@@ -218,6 +195,24 @@ fun RoundedImage(
     )
 }
 
+@Composable
+fun ImageWithTextCard(
+    imageRes: Int,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        RoundedImage(
+            imageRes = imageRes,
+            contentDescription = "Image$title"
+        )
+        Text(
+            text = title,
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp)
+        )
+    }
+}
 
 @Preview
 @Composable
