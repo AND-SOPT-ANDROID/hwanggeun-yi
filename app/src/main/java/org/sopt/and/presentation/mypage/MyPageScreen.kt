@@ -58,88 +58,58 @@ fun MyPageScreen(
         }
     }
 
-    Scaffold(
-        content = { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ){
-                ProfileHeader(
-                    email = uiState.email,
-                    onNotificationClick = {  },
-                    onSettingsClick = {  },
-                    modifier = Modifier
-                )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.my_page_first_subtitle),
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = stringResource(R.string.my_page_first_title),
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
+        ProfileHeader(
+            email = uiState.email,
+            onNotificationClick = {  },
+            onSettingsClick = {  },
+            modifier = Modifier
+        )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.my_page_second_subtitle),
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = stringResource(R.string.my_page_second_title),
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+        InfoSection(
+            subtitle = stringResource(R.string.my_page_first_subtitle),
+            title = stringResource(R.string.my_page_first_title)
+        )
 
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(16.dp)){
-                    Text(
-                        text = stringResource(R.string.my_page_total_view_history),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    EmptyStateMessage(stringResource(R.string.my_page_not_view_history))
-                }
+        InfoSection(
+            subtitle = stringResource(R.string.my_page_second_subtitle),
+            title = stringResource(R.string.my_page_second_title)
+        )
 
-
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(16.dp)){
-                    Text(
-                        text = stringResource(R.string.my_page_like_program),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    EmptyStateMessage(stringResource(R.string.my_page_not_found_program))
-                }
-            }
-
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .padding(16.dp)){
+            Text(
+                text = stringResource(R.string.my_page_total_view_history),
+                color = Color.White,
+                style = MaterialTheme.typography.titleMedium
+            )
+            EmptyStateMessage(stringResource(R.string.my_page_not_view_history))
         }
-    )
+
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .padding(16.dp)){
+            Text(
+                text = stringResource(R.string.my_page_like_program),
+                color = Color.White,
+                style = MaterialTheme.typography.titleMedium
+            )
+            EmptyStateMessage(stringResource(R.string.my_page_not_found_program))
+        }
+    }
 
 }
+
+
+
 
 @Composable
 fun EmptyStateMessage(message: String) {
@@ -215,6 +185,31 @@ fun ProfileHeader(
     }
 }
 
+@Composable
+fun InfoSection(
+    subtitle: String,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.DarkGray)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = subtitle,
+            color = Color.Gray,
+            style = MaterialTheme.typography.bodySmall
+        )
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
