@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.components.InputField
-import org.sopt.and.components.PasswordInputField
 import org.sopt.and.components.SocialLoginRow
 
 
@@ -87,11 +86,12 @@ fun SignInScreen(
                     onValueChange = { viewModel.setEmail(it) }
                 )
 
-                PasswordInputField(
+                InputField(
                     modifier = Modifier,
                     placeholder = stringResource(R.string.sign_in_password_placeholder),
                     value = password,
                     onValueChange = { viewModel.setPassword(it) },
+                    isPassword = true,
                     passwordVisible = passwordVisible,
                     onVisibilityChange = { passwordVisible = !passwordVisible },
                 )

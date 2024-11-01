@@ -58,16 +58,17 @@ fun InputField(
 }
 
 @Composable
-fun PasswordInputField(
-    modifier: Modifier,
+fun InputField(
+    modifier: Modifier = Modifier,
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
-    passwordVisible: Boolean,
-    onVisibilityChange: () -> Unit
+    isPassword: Boolean = false,
+    passwordVisible: Boolean = false,
+    onVisibilityChange: (() -> Unit)? = null
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(48.dp)
             .background(Color.DarkGray, shape = RoundedCornerShape(4.dp))
@@ -86,19 +87,21 @@ fun PasswordInputField(
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
             modifier = Modifier.fillMaxWidth(),
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None
         )
 
-        Box(
-            modifier = Modifier.align(Alignment.CenterEnd)
-        ) {
-            Text(
-                modifier = Modifier
-                    .clickable(onClick = onVisibilityChange),
-                text = if (passwordVisible) "Hide" else "Show",
-                style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
-                color = Color.White
-            )
+        if (isPassword && onVisibilityChange != null) {
+            Box(
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .clickable(onClick = onVisibilityChange),
+                    text = if (passwordVisible) "Hide" else "Show",
+                    style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+                    color = Color.White
+                )
+            }
         }
     }
 }
