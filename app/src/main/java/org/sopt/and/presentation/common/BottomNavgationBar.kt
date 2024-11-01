@@ -9,7 +9,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import org.sopt.and.R
 import org.sopt.and.navigation.Screen
 
 @Composable
@@ -18,23 +20,35 @@ fun BottomNavigationBar(
     currentRoute: String?
 ) {
     NavigationBar {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("홈") },
-            selected = currentRoute == Screen.Home.route,
-            onClick = { navController.navigate(Screen.Home.route) }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
-            label = { Text("검색") },
-            selected = currentRoute == Screen.Search.route,
-            onClick = { navController.navigate(Screen.Search.route) }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Person, contentDescription = "MY") },
-            label = { Text("MY") },
-            selected = currentRoute == Screen.MyPage.route,
-            onClick = { navController.navigate(Screen.MyPage.route) }
-        )
+        for (item in BottomNavItem.values()) {
+            NavigationBarItem(
+                icon = item.icon,
+                label = { Text(item.label) },
+                selected = currentRoute == item.route,
+                onClick = { navController.navigate(item.route) }
+            )
+        }
     }
+}
+
+enum class BottomNavItem(
+    val route: String,
+    val icon: @Composable () -> Unit,
+    val label: String
+) {
+    Home(
+        route = Screen.Home.route,
+        icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+        label = "홈"
+    ),
+    Search(
+        route = Screen.Search.route,
+        icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
+        label = "검색"
+    ),
+    MyPage(
+        route = Screen.MyPage.route,
+        icon = { Icon(Icons.Filled.Person, contentDescription = "MY") },
+        label = "MY"
+    )
 }

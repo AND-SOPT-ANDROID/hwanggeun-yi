@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import org.sopt.and.R
 import org.sopt.and.core.UserInfo
 import org.sopt.and.navigation.NavGraph
+import org.sopt.and.navigation.Screen
 import org.sopt.and.presentation.common.BottomNavigationBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.utils.KeyStorage
@@ -27,41 +28,49 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            ANDANDROIDTheme(true) {
-                Scaffold(
-                    bottomBar = {
-                        BottomNavigationBar(
-                            navController = navController,
-                            currentRoute = currentRoute
-                        )
-                    }
-                ) { paddingValues ->
-                    Box(modifier = Modifier.padding(paddingValues)) {
-                        NavGraph(navController = navController,
-                            intent.getStringExtra(KeyStorage.EMAIL)!!.let { UserInfo(it) })
-                    }
-                }
-            }
+            MainScreen(intent.getStringExtra(KeyStorage.EMAIL))
         }
-            
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(R.string.android_string),
-        modifier = modifier
+fun MainScreen(userEmail: String?) {
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    // 현재 화면이 메인 화면들(Home, Search, MyPage)인지 확인
+    val shouldShowBottomBar = currentRoute in listOf(
+        Screen.Home.route,
+        Screen.Search.route,
+        Screen.MyPage.route
     )
+
+    ANDANDROIDTheme(true) {
+        Scaffold(
+            bottomBar = {
+                if (shouldShowBottomBar) {
+                    BottomNavigationBar(
+                        navController = navController,
+                        currentRoute = currentRoute
+                    )
+                }
+            }
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                NavGraph(
+                    navController = navController,
+                    userInfo = UserInfo(userEmail)
+                )
+            }
+        }
+    }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ANDANDROIDTheme {
-        Greeting(stringResource(R.string.android_string))
-    }
+    MainScreen("")
 }

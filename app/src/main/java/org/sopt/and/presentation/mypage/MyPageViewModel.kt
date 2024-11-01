@@ -15,7 +15,6 @@ class MyPageViewModel : ViewModel() {
     }
 }
 
-// 사용자 정보를 저장할 데이터 클래스
 data class MyPageUiState(
     val email: String = "",
 )

@@ -35,10 +35,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 import org.sopt.and.core.UserInfo
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.sopt.and.ui.theme.ANDANDROIDTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,9 +51,11 @@ fun MyPageScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.setUserInfo(
-            email = userInfo.email
-        )
+        userInfo.email?.let {
+            viewModel.setUserInfo(
+                email = it
+            )
+        }
     }
 
     Scaffold(
@@ -77,13 +81,13 @@ fun MyPageScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    Column {
-                        Text(
-                            text = if (uiState.email != null) uiState.email else stringResource(R.string.my_page_not_find_email),
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
+
+                    Text(
+                        text = if (uiState.email != null) uiState.email else stringResource(R.string.my_page_not_find_email),
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
                     Spacer(modifier = Modifier.weight(1f))
 
                     IconButton(onClick = { TODO() }) {
@@ -194,5 +198,13 @@ fun EmptyStateMessage(message: String) {
             color = Color.Gray,
             style = MaterialTheme.typography.titleMedium
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MyPageScreen() {
+    ANDANDROIDTheme(true) {
+        MyPageScreen(viewModel = viewModel(), UserInfo(""))
     }
 }
