@@ -80,30 +80,17 @@ fun MyPageScreen(
             title = stringResource(R.string.my_page_second_title)
         )
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .padding(16.dp)){
-            Text(
-                text = stringResource(R.string.my_page_total_view_history),
-                color = Color.White,
-                style = MaterialTheme.typography.titleMedium
-            )
-            EmptyStateMessage(stringResource(R.string.my_page_not_view_history))
-        }
+        ContentSection(
+            title = stringResource(R.string.my_page_total_view_history),
+            emptyMessage = stringResource(R.string.my_page_not_view_history),
+            modifier = Modifier.weight(1f)
+        )
 
-
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .padding(16.dp)){
-            Text(
-                text = stringResource(R.string.my_page_like_program),
-                color = Color.White,
-                style = MaterialTheme.typography.titleMedium
-            )
-            EmptyStateMessage(stringResource(R.string.my_page_not_found_program))
-        }
+        ContentSection(
+            title = stringResource(R.string.my_page_like_program),
+            emptyMessage = stringResource(R.string.my_page_not_found_program),
+            modifier = Modifier.weight(1f)
+        )
     }
 
 }
@@ -185,6 +172,7 @@ fun ProfileHeader(
     }
 }
 
+
 @Composable
 fun InfoSection(
     subtitle: String,
@@ -208,6 +196,26 @@ fun InfoSection(
             color = Color.White,
             style = MaterialTheme.typography.bodyMedium,
         )
+    }
+}
+
+@Composable
+fun ContentSection(
+    title: String,
+    emptyMessage: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+        EmptyStateMessage(emptyMessage)
     }
 }
 
