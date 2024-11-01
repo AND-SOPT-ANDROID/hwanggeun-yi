@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -120,7 +121,7 @@ fun HomeScreen(
 
         // Editor's Picks
         item {
-            Text(
+            SectionTitle(
                 text = stringResource(R.string.editor_title),
                 modifier = Modifier.padding(16.dp)
             )
@@ -154,9 +155,9 @@ fun HomeScreen(
 
         // Top 20
         item {
-            Text(
+            SectionTitle(
                 text = stringResource(R.string.top_example_title),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -187,7 +188,20 @@ fun HomeScreen(
         }
     }
 }
-
+@Composable
+fun SectionTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
+    color: Color = Color.White
+) {
+    Text(
+        text = text,
+        modifier = modifier.padding(16.dp),
+        style = style,
+        color = color
+    )
+}
 @Preview
 @Composable
 fun HomeScreenPrevice(){
