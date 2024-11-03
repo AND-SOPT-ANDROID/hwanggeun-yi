@@ -28,6 +28,7 @@ import org.sopt.and.R
 
 @Composable
 fun InputField(
+    modifier: Modifier = Modifier,
     placeholder: String,
     value : String,
     onValueChange: (String) -> Unit,
@@ -58,6 +59,7 @@ fun InputField(
 
 @Composable
 fun PasswordInputField(
+    modifier: Modifier,
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -69,7 +71,7 @@ fun PasswordInputField(
             .fillMaxWidth()
             .height(48.dp)
             .background(Color.DarkGray, shape = RoundedCornerShape(4.dp))
-            .padding(horizontal = 12.dp), // 입력 필드 내부 패딩
+            .padding(horizontal = 12.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         if (value.isEmpty()) {

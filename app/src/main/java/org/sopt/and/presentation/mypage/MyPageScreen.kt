@@ -1,9 +1,5 @@
-package org.sopt.and
+package org.sopt.and.presentation.mypage
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,39 +25,39 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.sopt.and.R
+import org.sopt.and.core.UserInfo
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 
-class MyActivity : ComponentActivity() {
-    private var savedEmail: String? = null
-    private var savedPassword: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        savedEmail = intent.getStringExtra("EMAIL")
-        savedPassword = intent.getStringExtra("PASSWORD")
-
-        enableEdgeToEdge()
-        setContent {
-            ANDANDROIDTheme(true) {
-                MyScreen(savedEmail)
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyScreen(
-    email : String?
+fun MyPageScreen(
+    viewModel: MyPageViewModel = viewModel(),
+    userInfo: UserInfo
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        userInfo.email?.let {
+            viewModel.setUserInfo(
+                email = it
+            )
+        }
+    }
+
     Scaffold(
         content = { innerPadding ->
             Column(
@@ -70,24 +66,28 @@ fun MyScreen(
                     .padding(innerPadding)
             ){
                 Row(
-                    modifier = Modifier.fillMaxWidth().background(Color.DarkGray).padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.DarkGray)
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Profile icon
                     Image(
                         painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp).clip(CircleShape),
+                        contentDescription = stringResource(R.string.my_page_profile_image),
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    Column {
-                        Text(
-                            text = if (email != null) email else "이메일이 없습니다.",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
+
+                    Text(
+                        text = if (uiState.email != null) uiState.email else stringResource(R.string.my_page_not_find_email),
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
                     Spacer(modifier = Modifier.weight(1f))
 
                     IconButton(onClick = { TODO() }) {
@@ -107,56 +107,66 @@ fun MyScreen(
                 }
 
                 Column(
-                    modifier = Modifier.fillMaxWidth().background(Color.DarkGray).padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.DarkGray)
+                        .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "첫 결제 시 첫 달 100원!",
+                        text = stringResource(R.string.my_page_first_subtitle),
                         color = Color.Gray,
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = "구매하기 > ",
+                        text = stringResource(R.string.my_page_first_title),
                         color = Color.White,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
-                
+
                 Column(
-                    modifier = Modifier.fillMaxWidth().background(Color.DarkGray).padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.DarkGray)
+                        .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "현재 보유하신 이요권이 없습니다.",
+                        text = stringResource(R.string.my_page_second_subtitle),
                         color = Color.Gray,
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = "구매하기 > ",
+                        text = stringResource(R.string.my_page_second_title),
                         color = Color.White,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
-                
 
-
-
-                Column(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)){
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(16.dp)){
                     Text(
-                        text = "전체 시청내역",
+                        text = stringResource(R.string.my_page_total_view_history),
                         color = Color.White,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    EmptyStateMessage("시청내역이 없어요.")
+                    EmptyStateMessage(stringResource(R.string.my_page_not_view_history))
                 }
 
 
-                Column(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)){                    Text(
-                        text = "관심 프로그램",
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(16.dp)){
+                    Text(
+                        text = stringResource(R.string.my_page_like_program),
                         color = Color.White,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    EmptyStateMessage("시청내역이 없어요.")
+                    EmptyStateMessage(stringResource(R.string.my_page_not_found_program))
                 }
             }
 
@@ -193,8 +203,8 @@ fun EmptyStateMessage(message: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun MyScreenPreview() {
+fun MyPageScreen() {
     ANDANDROIDTheme(true) {
-        MyScreen("")
+        MyPageScreen(viewModel = viewModel(), UserInfo(""))
     }
 }
