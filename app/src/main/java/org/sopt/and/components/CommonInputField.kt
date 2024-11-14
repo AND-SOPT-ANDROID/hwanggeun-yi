@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,50 +25,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 
-
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
-    placeholder: String,
-    value : String,
-    onValueChange: (String) -> Unit,
-){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(Color.DarkGray, shape = RoundedCornerShape(4.dp))
-            .padding(horizontal = 12.dp),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        if (value.isEmpty()) {
-            Text(
-                text = placeholder,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-        }
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-fun InputField(
-    modifier: Modifier = Modifier,
-    placeholder: String,
-    value: String,
-    onValueChange: (String) -> Unit,
     isPassword: Boolean = false,
     passwordVisible: Boolean = false,
-    onVisibilityChange: (() -> Unit)? = null
+    onVisibilityChange: (() -> Unit)? = null,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -82,27 +54,26 @@ fun InputField(
                 color = Color.Gray
             )
         }
-        BasicTextField(
+        OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
             modifier = Modifier.fillMaxWidth(),
-            visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None
+            visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+            trailingIcon = {
+                if (isPassword && onVisibilityChange != null) {
+                    Text(
+                        modifier = Modifier
+                            .clickable(onClick = onVisibilityChange),
+                        text = if (passwordVisible) "Hide" else "Show",
+                        style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+                        color = Color.White
+                    )
+                }
+            }
         )
 
-        if (isPassword && onVisibilityChange != null) {
-            Box(
-                modifier = Modifier.align(Alignment.CenterEnd)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .clickable(onClick = onVisibilityChange),
-                    text = if (passwordVisible) "Hide" else "Show",
-                    style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
-                    color = Color.White
-                )
-            }
-        }
+
     }
 }
 
@@ -130,4 +101,18 @@ fun SocialLoginButton(iconResId: Int) {
             modifier = Modifier.size(48.dp)
         )
     }
+}
+
+@Composable
+@Preview
+fun InputFieldPreview() {
+    InputField(
+        placeholder = "Placeholder",
+        value = "Value",
+        onValueChange = {},
+        isPassword = true,
+        passwordVisible = true,
+        onVisibilityChange = {}
+    )
+
 }
