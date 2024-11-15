@@ -1,5 +1,6 @@
 package org.sopt.and.presentation.auth
 
+import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,17 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.R
 import org.sopt.and.components.InputField
 import org.sopt.and.components.SocialLoginRow
-import org.sopt.and.navigation.Screen
 import org.sopt.and.utils.KeyStorage
 
 
@@ -47,11 +46,12 @@ import org.sopt.and.utils.KeyStorage
 @Composable
 fun SignUpScreen(
     modifier: Modifier,
-    viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    onSignUpSuccess: (String, String) -> Unit
+    viewModel: AuthViewModel = viewModel(),
+    onSignUpSuccess: () -> Unit
 ){
-    val email by viewModel.email.observeAsState("")
+    val username by viewModel.username.observeAsState("")
     val password by viewModel.password.observeAsState("")
+    val hobby by viewModel.hobby.observeAsState("")
     val signUpSuccess by viewModel.signUpSuccess.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val snackbarHostState = remember { SnackbarHostState() }
@@ -59,7 +59,7 @@ fun SignUpScreen(
 
     LaunchedEffect(signUpSuccess) {
         if (signUpSuccess) {
-            onSignUpSuccess(email, password)
+            onSignUpSuccess()
         }
     }
 
@@ -97,9 +97,9 @@ fun SignUpScreen(
 
                 InputField(
                     modifier = Modifier,
-                    placeholder = stringResource(R.string.sign_up_email_input_example),
-                    value = email,
-                    onValueChange = { viewModel.setEmail(it) }
+                    placeholder = stringResource(R.string.sign_up_username_input_example),
+                    value = username,
+                    onValueChange = { viewModel.setUsername(it) }
                 )
 
                 Text(
@@ -119,6 +119,21 @@ fun SignUpScreen(
                     isPassword = true,
                     passwordVisible = passwordVisible,
                     onVisibilityChange = {passwordVisible = !passwordVisible}
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    text = stringResource(R.string.sign_up_password_sub_title),
+                    style = MaterialTheme.typography.bodySmall, color = Color.Gray,
+                    fontWeight = FontWeight.Normal
+                )
+
+                InputField(
+                    modifier = Modifier,
+                    placeholder = stringResource(R.string.sign_up_hobby_input_example),
+                    value = hobby,
+                    onValueChange = { viewModel.setHobby(it) },
                 )
                 Text(
                     modifier = Modifier
@@ -164,19 +179,24 @@ fun SignUpScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { viewModel.onSignUpClick { onSignUpSuccess(email, password) } },
+                    onClick = { viewModel.onSignUpClick(
+                        onSignUpSuccess = onSignUpSuccess
+                    ) },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(Color.LightGray),
-                    shape = RectangleShape
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (username.length <= 8 && password.length <= 8 && hobby.length <= 8)
+                            Color.Blue else Color.Gray
+                    ),
+                    enabled = username.length <= 8 && password.length <= 8 && hobby.length <= 8
                 ) {
-                    Text(stringResource(R.string.sign_up_btn))
+                    Text(stringResource(R.string.sign_up_button_text))
                 }
             }
         }
     )
 }
 
-private fun isValidEmail(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+private fun isValidEmail(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 private fun isValidPassword(password: String): Boolean = Regex(KeyStorage.EMAIL_REGEX).matches(password)
 
 @Preview
@@ -184,7 +204,7 @@ private fun isValidPassword(password: String): Boolean = Regex(KeyStorage.EMAIL_
 fun SignUpScreenPreview(){
     SignUpScreen(
         modifier = Modifier,
-        onSignUpSuccess = { email, password ->
+        onSignUpSuccess = {
 
         }
     )
