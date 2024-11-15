@@ -33,8 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.R
 import org.sopt.and.components.InputField
 import org.sopt.and.components.SocialLoginRow
@@ -45,10 +47,10 @@ import org.sopt.and.components.SocialLoginRow
 fun SignInScreen(
     modifier: Modifier,
     onNavigateToSignUp: () -> Unit,
-    onSignInSuccess: (String, String) -> Unit,
-    viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    onSignInSuccess: () -> Unit,
+    viewModel: AuthViewModel = viewModel()
 ){
-    val email by viewModel.email.observeAsState("")
+    val username by viewModel.username.observeAsState("")
     val password by viewModel.password.observeAsState("")
     var passwordVisible by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -81,9 +83,9 @@ fun SignInScreen(
 
                 InputField(
                     modifier = Modifier,
-                    placeholder = stringResource(R.string.sign_in_email_placeholder),
-                    value = email,
-                    onValueChange = { viewModel.setEmail(it) }
+                    placeholder = stringResource(R.string.sign_in_username_placeholder),
+                    value = username,
+                    onValueChange = { viewModel.setUsername(it) }
                 )
 
                 InputField(
@@ -169,5 +171,15 @@ fun SignInScreen(
 
             }
         }
+    )
+}
+
+@Composable
+@Preview
+fun SignInScreenPreview(){
+    SignInScreen(
+        modifier = Modifier,
+        onNavigateToSignUp = {},
+        onSignInSuccess = {}
     )
 }
