@@ -61,6 +61,9 @@ dependencies {
     implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.activity.ktx)
 
+    // Retrofit & Gson
+    implementation (libs.converter.gson)
+    implementation (libs.retrofit)
 
 
 }
