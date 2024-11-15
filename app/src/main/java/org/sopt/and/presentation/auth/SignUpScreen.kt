@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.components.InputField
-import org.sopt.and.components.PasswordInputField
 import org.sopt.and.components.SocialLoginRow
 import org.sopt.and.navigation.Screen
 import org.sopt.and.utils.KeyStorage
@@ -112,11 +111,12 @@ fun SignUpScreen(
                     fontWeight = FontWeight.Normal
                 )
 
-                PasswordInputField(
+                InputField(
                     modifier = Modifier,
                     placeholder = stringResource(R.string.sign_up_password_input_example),
                     value = password,
                     onValueChange = { viewModel.setPassword(it) },
+                    isPassword = true,
                     passwordVisible = passwordVisible,
                     onVisibilityChange = {passwordVisible = !passwordVisible}
                 )

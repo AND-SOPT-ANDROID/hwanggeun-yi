@@ -58,122 +58,45 @@ fun MyPageScreen(
         }
     }
 
-    Scaffold(
-        content = { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ){
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = stringResource(R.string.my_page_profile_image),
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
+        ProfileHeader(
+            email = uiState.email,
+            onNotificationClick = {  },
+            onSettingsClick = {  },
+            modifier = Modifier
+        )
 
-                    Text(
-                        text = if (uiState.email != null) uiState.email else stringResource(R.string.my_page_not_find_email),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+        InfoSection(
+            subtitle = stringResource(R.string.my_page_first_subtitle),
+            title = stringResource(R.string.my_page_first_title)
+        )
 
-                    Spacer(modifier = Modifier.weight(1f))
+        InfoSection(
+            subtitle = stringResource(R.string.my_page_second_subtitle),
+            title = stringResource(R.string.my_page_second_title)
+        )
 
-                    IconButton(onClick = { TODO() }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Notifications,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                    IconButton(onClick = { TODO() }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                }
+        ContentSection(
+            title = stringResource(R.string.my_page_total_view_history),
+            emptyMessage = stringResource(R.string.my_page_not_view_history),
+            modifier = Modifier.weight(1f)
+        )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.my_page_first_subtitle),
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = stringResource(R.string.my_page_first_title),
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.my_page_second_subtitle),
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = stringResource(R.string.my_page_second_title),
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(16.dp)){
-                    Text(
-                        text = stringResource(R.string.my_page_total_view_history),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    EmptyStateMessage(stringResource(R.string.my_page_not_view_history))
-                }
-
-
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(16.dp)){
-                    Text(
-                        text = stringResource(R.string.my_page_like_program),
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    EmptyStateMessage(stringResource(R.string.my_page_not_found_program))
-                }
-            }
-
-        }
-    )
+        ContentSection(
+            title = stringResource(R.string.my_page_like_program),
+            emptyMessage = stringResource(R.string.my_page_not_found_program),
+            modifier = Modifier.weight(1f)
+        )
+    }
 
 }
+
+
+
 
 @Composable
 fun EmptyStateMessage(message: String) {
@@ -198,6 +121,101 @@ fun EmptyStateMessage(message: String) {
             color = Color.Gray,
             style = MaterialTheme.typography.titleMedium
         )
+    }
+}
+
+@Composable
+fun ProfileHeader(
+    email: String?,
+    onNotificationClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.DarkGray)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = stringResource(R.string.my_page_profile_image),
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = email ?: stringResource(R.string.my_page_not_find_email),
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onNotificationClick) {
+            Icon(
+                imageVector = Icons.Outlined.Notifications,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+        IconButton(onClick = onSettingsClick) {
+            Icon(
+                imageVector = Icons.Outlined.Settings,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+    }
+}
+
+
+@Composable
+fun InfoSection(
+    subtitle: String,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.DarkGray)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = subtitle,
+            color = Color.Gray,
+            style = MaterialTheme.typography.bodySmall
+        )
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+fun ContentSection(
+    title: String,
+    emptyMessage: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+        EmptyStateMessage(emptyMessage)
     }
 }
 
