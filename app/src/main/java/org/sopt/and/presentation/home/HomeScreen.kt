@@ -34,7 +34,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -69,6 +71,7 @@ fun HomeScreen(
                     pagerState.animateScrollToPage(nextPage)
                 }
             }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,14 +85,12 @@ fun HomeScreen(
 
                 ) { page ->
                     Box(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            painter = painterResource(id = uiState.bannerContent[page].imageRes),
-                            contentDescription = "Image${page}",
-                            modifier = Modifier
-                                .width(screenWidth - 96.dp)
-                                .height(400.dp)
-                                .clip(RoundedCornerShape(16.dp)),
-                            contentScale = ContentScale.FillWidth
+                        RoundedImage(
+                            imageRes = uiState.bannerContent[page].imageRes,
+                            contentDescription = "Image${uiState.bannerContent[page].title}",
+                            modifier = Modifier,
+                            width = screenWidth - 96.dp,
+                            height = 400.dp,
                         )
                         Box(
                             modifier = Modifier
@@ -120,71 +121,96 @@ fun HomeScreen(
 
         // Editor's Picks
         item {
-            Text(
+            SectionTitle(
                 text = stringResource(R.string.editor_title),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 items(uiState.editorPicks) { content ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            painter = painterResource(id = content.imageRes),
-                            contentDescription = "Image${content.title}",
-                            modifier = Modifier
-                                .width(120.dp)
-                                .height(180.dp)
-                                .clip(RoundedCornerShape(16.dp))
-
-                        )
-
-                        Text(
-                            text = context.getString(content.title),
-                            modifier = Modifier.padding(8.dp),
-                            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp),
-
-                            )
-
-                    }
+                    ImageWithTextCard(
+                        imageRes = content.imageRes,
+                        title = "Image${content.title}",
+                        modifier = Modifier
+                    )
                 }
             }
         }
 
         // Top 20
         item {
-            Text(
+            SectionTitle(
                 text = stringResource(R.string.top_example_title),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 items(uiState.top20) { content ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            painter = painterResource(id = content.imageRes),
-                            contentDescription = "Image${content.title}",
-                            modifier = Modifier
-                                .width(120.dp)
-                                .height(180.dp)
-                                .clip(RoundedCornerShape(16.dp))
-
-                        )
-
-                        Text(
-                            text = context.getString(content.title),
-                            modifier = Modifier.padding(8.dp),
-                            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp),
-
-                            )
-
-                    }
+                    ImageWithTextCard(
+                        imageRes = content.imageRes,
+                        title = "Image${content.title}",
+                        modifier = Modifier
+                    )
                 }
             }
         }
+    }
+}
+@Composable
+fun SectionTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
+    color: Color = Color.White
+) {
+    Text(
+        text = text,
+        modifier = modifier.padding(16.dp),
+        style = style,
+        color = color
+    )
+}
+
+@Composable
+fun RoundedImage(
+    imageRes: Int,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    width: Dp = 120.dp,
+    height: Dp = 180.dp,
+    cornerRadius: Dp = 16.dp
+) {
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = contentDescription,
+        modifier = modifier
+            .width(width)
+            .height(height)
+            .clip(RoundedCornerShape(cornerRadius)),
+        contentScale = ContentScale.FillWidth
+    )
+}
+
+@Composable
+fun ImageWithTextCard(
+    imageRes: Int,
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        RoundedImage(
+            imageRes = imageRes,
+            contentDescription = "Image$title"
+        )
+        Text(
+            text = title,
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.titleSmall.copy(lineHeight = 32.sp)
+        )
     }
 }
 
