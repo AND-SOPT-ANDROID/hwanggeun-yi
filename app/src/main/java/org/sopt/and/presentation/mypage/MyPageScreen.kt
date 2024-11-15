@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,24 +48,20 @@ import org.sopt.and.ui.theme.ANDANDROIDTheme
 @Composable
 fun MyPageScreen(
     viewModel: MyPageViewModel = viewModel(),
-    userInfo: UserInfo
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(Unit) {
-        userInfo.email?.let {
-            viewModel.setUserInfo(
-                email = it
-            )
-        }
-    }
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchMyHobby(context)
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ){
         ProfileHeader(
-            email = uiState.email,
+            email = uiState.hobby,
             onNotificationClick = {  },
             onSettingsClick = {  },
             modifier = Modifier
@@ -223,6 +220,6 @@ fun ContentSection(
 @Composable
 fun MyPageScreen() {
     ANDANDROIDTheme(true) {
-        MyPageScreen(viewModel = viewModel(), UserInfo(""))
+        MyPageScreen(viewModel = viewModel())
     }
 }
