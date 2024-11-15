@@ -25,7 +25,7 @@ sealed class Screen(val route: String) {
 fun NavGraph(navController: NavHostController, userInfo: UserInfo) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.SignIn.route
     ) {
         composable(Screen.SignIn.route) {
             SignInScreen(
@@ -33,7 +33,7 @@ fun NavGraph(navController: NavHostController, userInfo: UserInfo) {
                 onNavigateToSignUp = {
                     navController.navigate(Screen.SignUp.route)
                 },
-                onSignInSuccess = { email, password ->
+                onSignInSuccess = {
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.SignIn.route) { inclusive = true }
                     }
@@ -43,7 +43,7 @@ fun NavGraph(navController: NavHostController, userInfo: UserInfo) {
         composable(Screen.SignUp.route) {
             SignUpScreen(
                 modifier = Modifier,
-                onSignUpSuccess = { email, password ->
+                onSignUpSuccess = {
                     navController.navigate(Screen.SignIn.route) {
                         popUpTo(Screen.SignUp.route) { inclusive = true }
                     }
@@ -52,8 +52,6 @@ fun NavGraph(navController: NavHostController, userInfo: UserInfo) {
         }
         composable(Screen.Home.route) { HomeScreen() }
         composable(Screen.Search.route) { SearchScreen() }
-        composable(Screen.MyPage.route) { MyPageScreen(
-            userInfo = userInfo
-        ) }
+        composable(Screen.MyPage.route) { MyPageScreen() }
     }
 }
