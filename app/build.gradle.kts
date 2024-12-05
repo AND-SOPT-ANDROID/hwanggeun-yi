@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 val properties = Properties().apply {
@@ -74,9 +76,13 @@ dependencies {
     implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.activity.ktx)
 
-    // Retrofit & Gson
-    implementation (libs.converter.gson)
-    implementation (libs.retrofit)
+    // Retrofit
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
 
 
 }
