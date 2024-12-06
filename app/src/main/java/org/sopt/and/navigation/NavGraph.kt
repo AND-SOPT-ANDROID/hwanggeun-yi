@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import org.sopt.and.core.UserInfo
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyPageScreen
 import org.sopt.and.presentation.search.SearchScreen
@@ -22,7 +21,7 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun NavGraph(navController: NavHostController, userInfo: UserInfo) {
+fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screen.SignIn.route

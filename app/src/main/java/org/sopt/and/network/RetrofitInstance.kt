@@ -33,6 +33,3 @@ object RetrofitInstance {
 
 }
 
-object ServicePool {
-    val authService = RetrofitInstance.create<AuthService>()
-}
