@@ -132,7 +132,7 @@ fun HomeScreen(
                 items(uiState.editorPicks) { content ->
                     ImageWithTextCard(
                         imageRes = content.imageRes,
-                        title = "Image${content.title}",
+                        title = context.getString(content.title),
                         modifier = Modifier
                     )
                 }
