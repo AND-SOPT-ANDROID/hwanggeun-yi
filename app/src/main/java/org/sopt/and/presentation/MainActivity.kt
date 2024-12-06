@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.sopt.and.R
-import org.sopt.and.core.UserInfo
 import org.sopt.and.navigation.NavGraph
 import org.sopt.and.navigation.Screen
 import org.sopt.and.presentation.common.BottomNavigationBar
@@ -59,8 +58,7 @@ fun MainScreen(userEmail: String?) {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)) {
                 NavGraph(
-                    navController = navController,
-                    userInfo = UserInfo(userEmail)
+                    navController = navController
                 )
             }
         }
