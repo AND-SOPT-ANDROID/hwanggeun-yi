@@ -1,5 +1,5 @@
 package org.sopt.and.domain.entity
 
-data class SignUpResult(
-    val no: Int
+data class SignUpData(
+    val userId: Int
 )

@@ -1,6 +1,6 @@
 package org.sopt.and.domain.entity
 
-data class LoginResult(
+data class SignInData(
     val token: String
 )
 
