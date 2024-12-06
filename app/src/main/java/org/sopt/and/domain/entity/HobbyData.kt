@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.mypage
+package org.sopt.and.domain.entity
 
 data class HobbyResult(
     val hobby: String

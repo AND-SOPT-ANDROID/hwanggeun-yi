@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.auth
+package org.sopt.and.domain.entity
 
 data class LoginResult(
     val token: String
