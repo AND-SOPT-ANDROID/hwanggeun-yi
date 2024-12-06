@@ -32,8 +32,8 @@ class MyPageViewModel : ViewModel() {
 
             val result = hobbyRepository.getHobby(token)
 
-            result.onSuccess { hobby ->
-                _uiState.value = MyPageUiState(hobby = hobby)
+            result.onSuccess { hobbyData ->
+                _uiState.value = MyPageUiState(hobby = hobbyData.hobby)
             }.onFailure { e ->
                 _errorMessage.value = errorHandler.handleNetworkError(e)
             }

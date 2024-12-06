@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.core.util.DefaultErrorHandler
+import org.sopt.and.domain.entity.SignInData
 import org.sopt.and.domain.repository.RepositoryPool
 import org.sopt.and.utils.KeyStorage
 import retrofit2.HttpException
@@ -51,15 +52,15 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val result = signInRepository.signIn(_username.value.orEmpty(), _password.value.orEmpty())
 
-            if (result.isSuccess) {
+            result.onSuccess {  signInData ->
                 context.getSharedPreferences("auth", Context.MODE_PRIVATE).edit()
-                    .putString("token", result.getOrNull() ?: "")
+                    .putString("token", signInData.token.orEmpty())
                     .apply()
 
                 signInSuccess.value = true
                 errorMessage.value = context.getString(R.string.signin_success)
                 onSignInSuccess()
-            } else {
+            }.onFailure{
                 handleSignInError(result.exceptionOrNull())
             }
         }
